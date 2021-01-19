@@ -1,48 +1,49 @@
-<script>
-  import { onMount } from "svelte";
-  export let date;
-
-  onMount(async () => {
-    const res = await fetch("/api/date");
-    const newDate = await res.text();
-    date = newDate;
-  });
+<script lang="ts">
+  import { Router, Route, Link } from "svelte-routing";
+  import Experience from "./pages/Experience.svelte";
+  import Header from "./pages/Header.svelte";
+  import Landing from "./pages/Landing.svelte";
+  import Footer from "./pages/Footer.svelte";
+  export let url = ""; //This property is necessary declare to avoid ignore the Router
 </script>
 
 <main>
-  <h1>Svelte + Node.js API</h1>
-  <h2>
-    Deployed with
-    <a href="https://vercel.com/docs" target="_blank" rel="noreferrer noopener">
-      Vercel
-    </a>
-    !
-  </h2>
-  <p>
-    <a
-      href="https://github.com/vercel/vercel/tree/master/examples/svelte"
-      target="_blank"
-      rel="noreferrer noopener">
-      This project
-    </a>
-    is a
-    <a href="https://svelte.dev/">Svelte</a>
-    app with three directories,
-    <code>/public</code>
-    for static assets,
-    <code>/src</code>
-    for components and content, and
-    <code>/api</code>
-    which contains a serverless
-    <a href="https://nodejs.org/en/">Node.js</a>
-    function. See
-    <a href="/api/date">
-      <code>api/date</code>
-      for the Date API with Node.js
-    </a>
-    .
-  </p>
-  <br />
-  <h2>The date according to Node.js is:</h2>
-  <p>{date ? date : 'Loading date...'}</p>
+  <Router {url}>
+    <Header />
+    <div class="content">
+      <Route path="/" component={Landing} />
+      <Route path="/work" component={Experience} />
+    </div>
+    <Footer />
+  </Router>
 </main>
+
+<style>
+  main {
+    text-align: center;
+    max-width: 240px;
+    height: 100%;
+    margin: 0 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h1 {
+    color: #ff3e00;
+    text-transform: uppercase;
+    font-size: 4em;
+    font-weight: 100;
+  }
+
+  .content {
+    height: 100%;
+    min-height: 0;
+  }
+
+  @media (min-width: 640px) {
+    main {
+      max-width: none;
+    }
+  }
+</style>
